@@ -3,13 +3,6 @@ from time import time, sleep
 from vk_connect import login, get_info, send_command
 
 def main():
-	vk = login()
-
-	choice = input("Обновить данные о жабке? [Y/n] ")
-	if choice.lower() == "y":
-		data = get_info(vk)
-		print("Все узнали")
-
 	with open('JabkaData.json', 'r', encoding='utf-8') as f:
 		data = load(f)
 
@@ -32,6 +25,7 @@ def main():
 				print("Забрали жабку с работы")
 				send_command(vk, "end_work")
 				data["work_time"] = time_ + 6*60*60
+				data = get_info(vk)
 
 		if data["status"] == "Нуждается в реанимации":
 			if data["heal"] > 0:
@@ -39,6 +33,7 @@ def main():
 				data["heal"] -= 1
 			elif data["money"] >= 300:
 				send_command(vk, "buy_heal")
+				data["money"] -= 300
 				print("Купили аптечку")
 				send_command(vk, "use_heal")
 			
@@ -51,6 +46,7 @@ def main():
 				data["lollipop"] -= 1
 			elif data["money"] >= 300:
 				send_command(vk, "buy_lp")
+				data["money"] -= 300
 				print("Купили леденец")
 				send_command(vk, "use_lp")
 
@@ -60,7 +56,14 @@ def main():
 		with open('JabkaData.json', 'w', encoding='utf-8') as f:
 			dump(data, f, ensure_ascii=False, indent=4, sort_keys=True)
 		
-		sleep(60)
+		sleep(min(data["feed_time"], data["work_time"]))
 
 if __name__=='__main__':
+	vk = login()
+
+	choice = input("Обновить данные о жабке? [Y/n] ")
+	if choice.lower() == "y":
+		data = get_info(vk)
+		print("Все узнали")
+
 	main()

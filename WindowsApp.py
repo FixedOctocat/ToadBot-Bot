@@ -69,12 +69,10 @@ def WindowsApp():
 			startfile('JabkaData.json')
 
 if __name__ == '__main__':
-	try:
-		arg = sys.argv[1]
-
+	for arg in sys.argv:
 		if arg == "--from_daemon":
 			WindowsApp()
 		elif arg == "--daemon":
 			main()
-	except:
+	else:
 		WindowsApp()

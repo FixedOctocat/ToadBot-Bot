@@ -21,13 +21,16 @@ commands = {
 }
 
 def login():
-	"""login via token"""
-	vk_session = vk_api.VkApi(token=access_token)
-	vk = vk_session.get_api()
-	return vk
+	try:
+		"""login via token"""
+		vk_session = vk_api.VkApi(token=access_token)
+		vk = vk_session.get_api()
+		vk.messages.getConversations(peer_id=2000000000+chat_id, count=1, random_id=get_random_id())
+		return vk
+	except vk_api.exceptions.ApiError:
+		return None
 
 def get_info(vk):
-	print("Узнаем интересные подробности про Вашу жабку")
 	"""open and save data"""
 	try:
 		with open('JabkaData.json', 'r', encoding='utf-8') as f:
@@ -100,6 +103,10 @@ def send_command(vk, command):
 
 def main():
 	vk = login()
+	
+	if vk is None:
+		print("Bad token")
+	
 	get_info(vk)
 
 if __name__=='__main__':

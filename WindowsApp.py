@@ -1,12 +1,17 @@
 import sys
 sys.path.append("./utility_code")
 
-import PySimpleGUIQt as sg
+import subprocess
 from os import startfile
+import PySimpleGUIQt as sg
 from tray_functions import start_JabkaBot, refresh_data
 from multiprocessing import Process, current_process
 
 def main():
+	DETACHED_PROCESS = 8
+	subprocess.Popen('pythonw.exe WindowsApp.py --from_daemon', creationflags=DETACHED_PROCESS, shell=True, close_fds=True)
+
+def WindowsApp():
 	#system tray creation
 	menu_def = ['BLANK', ['&Start JabkaBot', '&Refresh data', '&Open JabkaData', '&Exit']]
 	tray = sg.SystemTray(menu=menu_def, filename='images/icon.png')
@@ -64,4 +69,12 @@ def main():
 			startfile('JabkaData.json')
 
 if __name__ == '__main__':
-	main()
+	try:
+		arg = sys.argv[1]
+
+		if arg == "--from_daemon":
+			WindowsApp()
+		elif arg == "--daemon":
+			main()
+	except:
+		WindowsApp()

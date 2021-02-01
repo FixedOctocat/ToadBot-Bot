@@ -2,12 +2,13 @@ import sys
 sys.path.append("./utility_code")
 
 import PySimpleGUIQt as sg
+from os import startfile
 from tray_functions import start_JabkaBot, refresh_data
 from multiprocessing import Process, current_process
 
 def main():
 	#system tray creation
-	menu_def = ['BLANK', ['&Start JabkaBot', '&Refresh data', '&Exit']]
+	menu_def = ['BLANK', ['&Start JabkaBot', '&Refresh data', '&Open JabkaData', '&Exit']]
 	tray = sg.SystemTray(menu=menu_def, filename='images/icon.png')
 
 	while True:
@@ -32,7 +33,7 @@ def main():
 			break
 		elif menu_item == 'Start JabkaBot':
 			#edit menu
-			menu_def = ['BLANK', ['Stop JabkaBot', 'Refresh data', 'Exit']]
+			menu_def = ['BLANK', ['Stop JabkaBot', 'Refresh data', '&Open JabkaData', 'Exit']]
 			tray.Update(menu=menu_def)
 			
 			#show notification
@@ -50,7 +51,7 @@ def main():
 			RefreshData.start()
 		elif menu_item == 'Stop JabkaBot':
 			#edit menu
-			menu_def = ['BLANK', ['Start JabkaBot', 'Refresh data', 'Exit']]
+			menu_def = ['BLANK', ['Start JabkaBot', 'Refresh data', '&Open JabkaData', 'Exit']]
 			tray.Update(menu=menu_def)
 			
 			#show notification
@@ -59,6 +60,8 @@ def main():
 			#end process
 			JabkaBot.terminate()
 			JabkaBot.join()
+		elif menu_item == 'Open JabkaData':
+			startfile('JabkaData.json')
 
 if __name__ == '__main__':
 	main()

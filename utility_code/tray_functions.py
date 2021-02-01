@@ -9,6 +9,8 @@ def start_JabkaBot():
 	if vk is None:
 		open_new(token_url)
 		exit()
+	elif vk == 1:
+		return 1
 
 	main(vk)
 
@@ -18,5 +20,7 @@ def refresh_data():
 	if vk is None:
 		open_new(token_url)
 		exit()
+	elif vk == 1:
+		return 1
 
 	get_info(vk)

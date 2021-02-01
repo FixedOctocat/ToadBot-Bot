@@ -74,5 +74,3 @@ if __name__ == '__main__':
 			WindowsApp()
 		elif arg == "--daemon":
 			main()
-	else:
-		WindowsApp()

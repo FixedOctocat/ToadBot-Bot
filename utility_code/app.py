@@ -4,7 +4,7 @@ from vk_connect import login, get_info, send_command
 
 def tsleep(n):
 	n /= 30
-	for i in range(int(n)):
+	for i in range(int(n+1)):
 		sleep(30)
 
 def main(vk):

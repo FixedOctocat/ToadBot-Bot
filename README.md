@@ -1,5 +1,5 @@
 # ToadBot-Bot
-Bot to automatically upgrade your toad.
+Bot to automatically upgrade your toad:frog: from [vk game](https://vk.com/toadbot).
 
 ## Run Windows application
 ```sh
